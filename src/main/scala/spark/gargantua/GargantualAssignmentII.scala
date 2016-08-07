@@ -18,7 +18,7 @@ object GargantuaAssignmentII extends App {
   val df = spark.read.format("com.databricks.spark.csv")
     .option("header", "true")
     .option("inferSchema", "true")
-    .load("/home/knoldus/Fire_Department_Calls_for_Service.csv")
+    .load("put/file/path/here")
 
   //Q1 Different number of Call Types
   val differentCallTypes = df.groupBy("Call Type").count().count()
