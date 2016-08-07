@@ -2,7 +2,6 @@ package spark.gargantua
 
 import java.text.SimpleDateFormat
 import java.util.Date
-
 import org.apache.spark.sql._
 
 object GargantuaAssignmentII extends App {
@@ -43,11 +42,10 @@ object GargantuaAssignmentII extends App {
 
   object DateEncoder {
     implicit def dateEncoder = org.apache.spark.sql.Encoders.kryo(classOf[Date])
-
     implicit def parserEncoder = org.apache.spark.sql.Encoders.kryo(classOf[SimpleDateFormat])
   }
 
-  //Q4
+  //Q4 Number of calls in last seven days
   import DateEncoder._
 
   val latestDate: Date = df.select("Call Date").map {
@@ -65,8 +63,7 @@ object GargantuaAssignmentII extends App {
   }.count()
   println(s"Number of calls in last seven days:::: " + callsInLastSevenDays)
 
-  println("The last year is:::::::::::: " + ((latestDate.getYear + 1900) - 1))
-  //Q5 SF
+  //Q5 SF neighborhood with most calls last year
   df.select("city", "Neighborhood  District", "Call Date").createOrReplaceTempView("table")
   val ndf = sql("select * from table where city='San Francisco'")
     .filter(row => row.getString(2).contains("2015"))
